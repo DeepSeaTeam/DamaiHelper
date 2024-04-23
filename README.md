@@ -29,7 +29,7 @@
 #### 脚本配置
 - 参照config.json中的[comment]字段。
 
-#### 运行脚本
+#### 脚本运行
 ```
 git clone
 python main.py
