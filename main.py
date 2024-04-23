@@ -6,6 +6,7 @@ from time import sleep, time
 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support import expected_conditions as EC
@@ -82,7 +83,8 @@ class Concert(object):
         self.time_start = time()  # 记录开始时间
         print(u'###打开浏览器，进入大麦网###')
         if not exists('cookies.pkl'):  # 如果不存在cookie.pkl,就获取一下
-            self.driver = webdriver.Chrome(executable_path=self.driver_path)
+            service = Service(self.driver_path)
+            self.driver = webdriver.Chrome(service=service)
             self.get_cookie()
             print(u'###成功获取Cookie，重启浏览器###')
             self.driver.quit()
@@ -103,8 +105,8 @@ class Concert(object):
         capa = DesiredCapabilities.CHROME
         # normal, eager, none
         capa["pageLoadStrategy"] = "eager"
-        self.driver = webdriver.Chrome(
-            executable_path=self.driver_path, options=options, desired_capabilities=capa)
+        service = Service(self.driver_path)
+        self.driver = webdriver.Chrome(service=service, options=options, desired_capabilities=capa)
         # 登录到具体抢购页面
         self.login()
         self.driver.refresh()
@@ -400,3 +402,4 @@ if __name__ == '__main__':
     if con.status == 6:
         print(u"###经过%d轮奋斗，耗时%.1f秒，成功为您抢票！请及时确认订单信息并完成支付！###" % (
             con.num, round(con.time_end - con.time_start, 3)))
+       
