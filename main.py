@@ -97,6 +97,7 @@ class Concert(object):
         options.add_experimental_option("mobileEmulation", mobile_emulation)
         # 就是这一行告诉chrome去掉了webdriver痕迹，令navigator.webdriver=false，极其关键
         options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument('--log-level=3')
 
         # 更换等待策略为不等待浏览器加载完全就进行下一步操作
         capa = DesiredCapabilities.CHROME
@@ -137,7 +138,7 @@ class Concert(object):
 
             # 判断root元素是否存在
             try:
-                box = WebDriverWait(self.driver, 2, 0.1).until(
+                box = WebDriverWait(self.driver, 1, 0.1).until(
                     EC.presence_of_element_located((By.ID, 'root'))
                 )
             except:
@@ -145,7 +146,7 @@ class Concert(object):
 
             # 检查并处理温馨提示遮罩
             try:
-                health_info = WebDriverWait(self.driver, 2, 0.1).until(
+                health_info = WebDriverWait(self.driver, 1, 0.1).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'health-info-content'))
                 )
                 print("---检测到温馨提示遮罩---")
@@ -167,7 +168,7 @@ class Concert(object):
 
             # 检查并处理实名制观演提示遮罩
             try:
-                realname_info = WebDriverWait(self.driver, 2, 0.1).until(
+                realname_info = WebDriverWait(self.driver, 1, 0.1).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'realname-content'))
                 )
                 print("---检测到实名制观演提示遮罩---")
@@ -198,14 +199,14 @@ class Concert(object):
             sleep(0.1)
             buybutton.click()
             print("---点击购买按钮---")
-            box = WebDriverWait(self.driver, 2, 0.1).until(
+            box = WebDriverWait(self.driver, 1, 0.1).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '.sku-pop-wrapper')))
 
             try:
                 # 日期选择
                 toBeClicks = []
                 try:
-                    date = WebDriverWait(self.driver, 2, 0.1).until(
+                    date = WebDriverWait(self.driver, 1, 0.1).until(
                         EC.presence_of_element_located((By.CLASS_NAME, 'bui-dm-sku-calendar')))
                 except Exception as e:
                     date = None
@@ -221,7 +222,7 @@ class Concert(object):
                         sleep(0.05)
 
                 # 选定场次
-                session = WebDriverWait(self.driver, 2, 0.1).until(
+                session = WebDriverWait(self.driver, 1, 0.1).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'sku-times-card')))  # 日期、场次和票档进行定位
                 session_list = session.find_elements(
                     by=By.CLASS_NAME, value='bui-dm-sku-card-item')
@@ -253,7 +254,7 @@ class Concert(object):
 
                 # 选定票档
                 toBeClicks = []
-                price = WebDriverWait(self.driver, 2, 0.1).until(
+                price = WebDriverWait(self.driver, 1, 0.1).until(
                     EC.presence_of_element_located((By.CLASS_NAME, 'sku-tickets-card')))  # 日期、场次和票档进行定位
 
                 price_list = price.find_elements(
@@ -276,13 +277,13 @@ class Concert(object):
 
                 buybutton = box.find_element(
                     by=By.CLASS_NAME, value='sku-footer-buy-button')
-                sleep(1.0)
+                # sleep(1.0)
                 buybutton_text = buybutton.text
                 if buybutton_text == "":
                     raise Exception(u"***Error: 提交票档按钮文字获取为空,适当调整 sleep 时间***")
 
                 try:
-                    WebDriverWait(self.driver, 2, 0.1).until(
+                    WebDriverWait(self.driver, 1, 0.1).until(
                         EC.presence_of_element_located((By.CLASS_NAME, 'bui-dm-sku-counter')))
                 except:
                     raise Exception(u"***购票按钮未开始***")
@@ -309,7 +310,7 @@ class Concert(object):
                     ticket_num_up.click()
                 buybutton.click()
                 self.status = 4
-                WebDriverWait(self.driver, 3, 0.1).until(
+                WebDriverWait(self.driver, 2, 0.1).until(
                     EC.title_contains("确认"))
                 break
             else:
