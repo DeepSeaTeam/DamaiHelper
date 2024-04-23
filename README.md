@@ -24,17 +24,19 @@
 #### 环境准备
 - Python3
     - Selenium (4.10.0以下版本)
-- 下载与系统安装对应的 ChromeDriver 驱动并配置（也可以改用其他浏览器驱动）。
+- Chrome 以及配置与 Chrome 版本兼容的 ChromeDriver （当然，你也可以自行研究改用其它浏览器驱动）。
 
 #### 运行脚本
-`python ticket_script.py`
+```
+git clone
+python main.py
+```
 
 #### 脚本配置
 - 参照config.json中的[comment]字段。
 
 ## 鸣谢
-原作者：Guyungy https://github.com/Guyungy/damaihelper
-感谢提供基础逻辑！
+原作者：Guyungy https://github.com/Guyungy/damaihelper 提供的脚本基础逻辑！
 
 ## 免责声明
 详见MIT License，此仓库仅用于个人参考学习，但如他人用本仓库代码用于商业用途（鄙视黄牛），侵犯到大麦网利益等，本人不承担任何责任。
