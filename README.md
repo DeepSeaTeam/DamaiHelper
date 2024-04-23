@@ -26,14 +26,14 @@
     - Selenium (4.10.0以下版本)
 - Chrome 以及配置与 Chrome 版本兼容的 ChromeDriver （当然，你也可以自行研究改用其它浏览器驱动）。
 
+#### 脚本配置
+- 参照config.json中的[comment]字段。
+
 #### 运行脚本
 ```
 git clone
 python main.py
 ```
-
-#### 脚本配置
-- 参照config.json中的[comment]字段。
 
 ## 鸣谢
 原作者：Guyungy https://github.com/Guyungy/damaihelper 提供的脚本基础逻辑！
