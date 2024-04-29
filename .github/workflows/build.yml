@@ -27,10 +27,10 @@ jobs:
 
     - name: Create ZIP file
       run: |
-        mkdir dist
-        cp main.exe dist/DamaiHelper.exe
-        cp config.json dist/config.json
-        zip -r DamaiHelper_V${{ github.run_number }}_Windows.zip dist
+        mkdir DamaiHelper
+        cp main.exe DamaiHelper/DamaiHelper.exe
+        cp config.json DamaiHelper/config.json
+        zip -r DamaiHelper_V${{ github.run_number }}_Windows.zip DamaiHelper
 
     - name: Create Release
       id: create_release
