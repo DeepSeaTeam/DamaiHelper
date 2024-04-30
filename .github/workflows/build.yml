@@ -23,7 +23,7 @@ jobs:
         pip install pyinstaller
 
     - name: Build executable
-      run: pyinstaller main.py
+      run: pyinstaller -F main.py
 
     - name: Create ZIP file
       run: |
