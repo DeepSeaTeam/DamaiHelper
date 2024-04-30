@@ -45,15 +45,15 @@ class Concert(object):
     # 获取账号的cookie信息
     def get_cookie(self):
         self.driver.get(self.damai_url)
-        print(u"###请点击登录###")
+        print("###请点击登录###")
         self.driver.find_element(by=By.CLASS_NAME, value='login-user').click()
         while self.driver.title.find('大麦网-全球演出赛事官方购票平台') != -1:  # 等待网页加载完成
             sleep(1)
-        print(u"###请扫码登录###")
+        print("###请扫码登录###")
         while self.driver.title == '大麦登录':  # 等待扫码完成
             sleep(1)
         dump(self.driver.get_cookies(), open("cookies.pkl", "wb"))
-        print(u"###Cookie保存成功###")
+        print("###Cookie保存成功###")
 
     def set_cookie(self):
         try:
@@ -69,24 +69,24 @@ class Concert(object):
                     'HostOnly': False,
                     'Secure': False}
                 self.driver.add_cookie(cookie_dict)
-            print(u'###载入Cookie###')
+            print("###载入Cookie###")
         except Exception as e:
             print(e)
 
     def login(self):
-        print(u'###开始登录###')
+        print("###开始登录###")
         self.driver.get(self.target_url)
         WebDriverWait(self.driver, 10, 0.1).until(EC.title_contains('商品详情'))
         self.set_cookie()
 
     def enter_concert(self):
         self.time_start = time()  # 记录开始时间
-        print(u'###打开浏览器，进入大麦网###')
+        print("###打开浏览器，进入大麦网###")
         if not exists('cookies.pkl'):  # 如果不存在cookie.pkl,就获取一下
             service = Service(self.driver_path)
             self.driver = webdriver.Chrome(service=service)
             self.get_cookie()
-            print(u'###成功获取Cookie，重启浏览器###')
+            print("###成功获取Cookie，重启浏览器###")
             self.driver.quit()
 
         options = webdriver.ChromeOptions()
@@ -122,7 +122,7 @@ class Concert(object):
     # 实现购买函数
 
     def choose_ticket(self):
-        print(u"###进入抢票界面###")
+        print("###进入抢票界面###")
         # 如果跳转到了确认界面就算这步成功了，否则继续执行此步
         while self.driver.title.find('订单确认') == -1:
             self.num += 1  # 尝试次数加1
@@ -300,7 +300,7 @@ class Concert(object):
                 if buybutton_text == "选座购买":  # 选座购买没有增减票数键
                     buybutton.click()
                     self.status = 5
-                    print(u"###请自行选择位置和票价###")
+                    print("###请自行选择位置和票价###")
                     break
                 elif buybutton_text == "提交缺货登记":
                     raise Exception(u'###票已被抢完，持续捡漏中...或请关闭程序并手动提交缺货登记###')
@@ -343,13 +343,13 @@ class Concert(object):
             sleep(0.5)
             comfirmBtn.click()
             # 判断title是不是支付宝
-            print(u"###正在跳转到支付宝付款界面###")
+            print("###正在跳转到支付宝付款界面###")
 
             while True:
                 try:
                     WebDriverWait(self.driver, 5, 0.1).until(
                         EC.title_contains('支付宝'))
-                    print(u'###订单提交成功###')
+                    print("###订单提交成功###")
                     self.status = 6
                     self.time_end = time()
                     break
@@ -359,17 +359,17 @@ class Concert(object):
                         "\n###\n1.成功跳转到支付宝付款页面\n2.未知，没跳转到支付宝界面，尝试重新抢票\n3.未知，退出脚本\n###\n请输入当前状态：")
                     if step == '1':
                         # 成功
-                        print(u'订单提交成功')
+                        print("订单提交成功")
                         self.status = 6
                         self.time_end = time()
                         break
                     elif step == '2':
                         # 失败，进入下一轮抢票
-                        print(u'尝试重新抢票')
+                        print("尝试重新抢票")
                         return True
                     elif step == '3':
                         # 退出脚本
-                        print(u'脚本退出成功')
+                        print("脚本退出成功")
                         return False
                     else:
                         raise Exception(u'***Error: 未知输入***')
@@ -400,6 +400,7 @@ if __name__ == '__main__':
             continue
 
     if con.status == 6:
-        print(u"###经过%d轮奋斗，耗时%.1f秒，成功为您抢票！请及时确认订单信息并完成支付！###" % (
+        print("###经过%d轮奋斗，耗时%.1f秒，成功为您抢票！请及时确认订单信息并完成支付！###" % (
             con.num, round(con.time_end - con.time_start, 3)))
-       
+        input("按 Enter 键退出脚本")
+        
