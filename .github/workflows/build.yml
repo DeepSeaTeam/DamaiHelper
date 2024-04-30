@@ -48,7 +48,7 @@ jobs:
         tag_name: v${{ env.VERSION }}
         release_name: DamaiHelper v${{ env.VERSION }} Release
         body: |
-          Description of the release.
+          总有些小笨蛋运行不起来，所以有了它...
         draft: false
         prerelease: false
 
