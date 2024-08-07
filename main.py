@@ -102,11 +102,11 @@ class Concert(object):
         options.add_argument('--log-level=3')
 
         # 更换等待策略为不等待浏览器加载完全就进行下一步操作
-        capa = DesiredCapabilities.CHROME
+        options.page_load_strategy = 'eager'
         # normal, eager, none
-        capa["pageLoadStrategy"] = "eager"
+   
         service = Service(self.driver_path)
-        self.driver = webdriver.Chrome(service=service, options=options, desired_capabilities=capa)
+        self.driver = webdriver.Chrome(service=service, options=options)
         # 登录到具体抢购页面
         self.login()
         self.driver.refresh()
